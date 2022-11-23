@@ -1,7 +1,7 @@
 # TeamC-UI
 
 clone repo
-cd to root
+cd to top level of cloned repo 'TeamC-UI'
 run 'npm install'
 run 'npm start'
 
