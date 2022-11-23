@@ -31,7 +31,6 @@ app.get('/jobRoles', async (req, res) => {
     var jr = await jobdata.getJobRoles();
     console.log(jr)
     res.render('list-jobRoles', { jobRoles: jr.data } ) 
-    
 });
 
 
