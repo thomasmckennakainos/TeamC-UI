@@ -5,7 +5,6 @@ const { v4: uuidv4 } = require('uuid');
 var cookieParser = require('cookie-parser')
 const jobdata = require('./Database/JobRolesData.js')
 
-
 // app setup
 app.use(cookieParser());
 app.set('view engine', 'njk');
@@ -30,13 +29,10 @@ app.get('/cookie', async (req, res) => {
 app.get('/jobRoles', async (req, res) => { 
     var jr = await jobdata.getJobRoles();
     console.log(jr)
-    res.render('list-jobRoles', { jobRoles: jr.data } ) 
+    res.render('list-jobRoles', { jobRoles: jr } ) 
 });
-
 
 //method to redirect to error page
 app.get('*', function(req, res){
     res.status(404).render('ErrorPage');
   });
-
-

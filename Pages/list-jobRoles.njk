@@ -4,33 +4,36 @@
 
 <html lang="en">
 <head>
-  <title>Job Titles</title>
+  <title>Job Roles</title>
 </head>
  
 {% block content %}
 
-
 <h1>List of job roles within Kainos</h1> 
 {% if jobRoles and jobRoles.length > 0 %} 
-{% set jobRows = [] %} 
+    {% set jobRows = [] %} 
 
-{% for jobRole in jobRoles %} 
+    {% for jobRole in jobRoles %} 
 
-{% set jobRows= (jobRows.push([
-                          { text: jobRole.roleID},
-                          { text: jobRole.role_title}]),
-                                            jobRows) %} 
-{% endfor %} 
+    {% set jobRows= (jobRows.push([
+                              { text: jobRole.role_title}]),
+                                                jobRows) %} 
+    {% endfor %} 
 
-{{govukTable({ 
-    head: [ { text: "ID" },
-          { text: "Job Title" }], 
-    rows: jobRows }) 
-}} 
+      <table>
+        <tr>
+          <th>Job Role:</th>
+        </tr>
+        {% asyncAll jobRole in jobRoles %}
+        <tr>
+          <td>{{jobRole.role_title}}</td>
+        </tr>
+        {% endall %}
+      </table>
+
 {% else %}
 
 There are no job roles!
 {% endif %}
-
 
 {% endblock %} 
