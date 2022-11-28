@@ -34,15 +34,17 @@ describe('JobRolesData', function () {
         expect(error.message).to.equal('Could not get job roles! Request failed with status code 500')
       })
 
-      it('should throw exception when NULL is returned from axios', async () => {
+      it('should throw exception when empty list is returned from axios', async () => {
         var mock = new MockAdapter(axios);
 
-        mock.onGet(jobRolesURL).reply(null);
+        const data = [];
+
+        mock.onGet(jobRolesURL).reply(200, data);
 
         var error = await JobRolesData.getJobRoles();
         
-        expect(error.message).to.equal('Could not get job roles! Request failed with status code null')
+        expect(error.message).to.equal('There are no job roles to display!')
       })
-
+      
     })
   })

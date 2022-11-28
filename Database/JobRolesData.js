@@ -4,6 +4,9 @@ const axios = require('axios');
 exports.getJobRoles = async function () { 
   try {  
       const jobResponse = await axios.get('http://localhost:8080/api/job-roles')
+      if(jobResponse.data.length == 0){
+         return new Error('There are no job roles to display!') 
+      }
       return jobResponse.data
     } catch (e) {
        return new Error('Could not get job roles! ' +  e.message)
