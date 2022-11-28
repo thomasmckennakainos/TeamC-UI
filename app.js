@@ -27,8 +27,13 @@ app.get('/cookie', async (req, res) => {
 
 //US001 - view Job Roles
 app.get('/jobRoles', async (req, res) => { 
-    var jr = await jobdata.getJobRoles();
-    res.render('list-jobRoles', { jobRoles: jr } ) 
+    try {
+        let jr = await jobdata.getJobRoles();
+        res.render('list-jobRoles', { jobRoles: jr } )
+    } catch (e) {
+        res.locals.errormessage = e
+        return res.render('list-jobRoles')
+    }  
 });
 
 //method to redirect to error page
