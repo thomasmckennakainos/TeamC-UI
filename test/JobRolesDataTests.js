@@ -35,6 +35,7 @@ describe('JobRolesData', function () {
         } catch (e) {
           expect(e.message).to.equal('Could not get job roles. Request failed with status code 500')
         }
+       
       })
 
       it('should throw exception when empty list is returned from axios', async () => {
