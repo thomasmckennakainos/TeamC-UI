@@ -26,17 +26,34 @@ app.get('/cookie', async (req, res) => {
 })
 
 //US001 - view Job Roles
-app.get('/jobRoles', async (req, res) => { 
+app.get('/jobRoles', async (req, res) => {
     try {
         let jr = await jobdata.getJobRoles();
-        res.render('list-jobRoles', { jobRoles: jr } )
+        res.render('list-jobRoles', { jobRoles: jr })
     } catch (e) {
         res.locals.errormessage = e
         return res.render('list-jobRoles')
-    }  
+    }
+});
+
+//US002 - view Job Specification
+app.param('roleid', function (req, res, next, roleid) {
+    req.roleid = roleid;
+    next();
+});
+
+app.get('/job-specification/:roleid', async (req, res) => {
+    try {
+        var js = await jobSpecification.getJobSpecification(req.roleid);
+        res.render('JobSpecification', { spec: js.data })
+    } catch (e) {
+        res.locals.errormessage = e
+        return res.render('JobSpecification')
+    }
 });
 
 //method to redirect to error page
-app.get('*', function(req, res){
+app.get('*', function (req, res) {
     res.status(404).render('ErrorPage');
-  });
+});
+
