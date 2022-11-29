@@ -15,14 +15,14 @@ describe('JobSpecification', function () {
         it('should return specification of selected job', async () => {
             var mock = new MockAdapter(axios);
             const data = [spec];
-            mock.onGet('http://localhost:8080/api/job-specification/1').reply(200, data);
+            mock.onGet(jobSpecification.URL + '1').reply(200, data);
             var results = await jobSpecification.getJobSpecification(1);
-            expect(results[0]).to.deep.equal(spec)
+            expect(results.data[0]).to.deep.equal(spec)
         })
 
         it('should throw exception when 500 error returned from axios', async () => {
             var mock = new MockAdapter(axios);
-            mock.onGet('http://localhost:8080/api/job-specification/1').reply(500);
+            mock.onGet(jobSpecification.URL + '1').reply(500);
             var error = await jobSpecification.getJobSpecification(1);
             expect(error.message).to.equal('Could not get job specification')
         })
