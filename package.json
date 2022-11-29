@@ -14,11 +14,16 @@
   },
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"No tests\" && exit 0"
+    "test": "mocha test/**/*.js"
   },
   "author": "Thomas McKenna <thomas.mckenna@kainos.com>",
   "license": "ISC",
   "nodemonConfig": {
     "ext": "js,json,hbs,html,njk"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.21.2",
+    "chai": "^4.3.7",
+    "mocha": "^10.1.0"
   }
 }

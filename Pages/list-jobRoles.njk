@@ -1,0 +1,40 @@
+
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+<html lang="en">
+<head>
+  <title>Job Roles</title>
+</head>
+ 
+{% block content %}
+
+<h1>List of job roles within Kainos</h1> 
+{% if jobRoles and jobRoles.length > 0 %} 
+    {% set jobRows = [] %} 
+
+    {% for jobRole in jobRoles %} 
+
+    {% set jobRows= (jobRows.push([
+                              { text: jobRole.role_title}]),
+                                                jobRows) %} 
+    {% endfor %} 
+
+      <table>
+        <tr>
+          <th>Job Role:</th>
+        </tr>
+        {% asyncAll jobRole in jobRoles %}
+        <tr>
+          <td>{{jobRole.role_title}}</td>
+        </tr>
+        {% endall %}
+      </table>
+
+{% else %}
+
+{{ errormessage }}
+
+{% endif %}
+
+{% endblock %} 
