@@ -38,17 +38,12 @@ app.get('/jobRoles', async (req, res) => {
 });
 
 //US002 - view Job Specification
-app.param('roleid', function (req, res, next, roleid) {
-    req.roleid = roleid;
-    next();
-});
-
 app.get('/job-specification/:roleid', async (req, res) => {
     try {
-        var js = await jobSpecification.getJobSpecification(req.roleid);
+        var js = await jobSpecification.getJobSpecification(req.params.roleid);
         res.render('JobSpecification', { spec: js.data })
     } catch (e) {
-        res.locals.errormessage = e
+        res.locals.errormessage = "Sorry, we couldn't load that specification! \n Error details: " + e;
         return res.render('JobSpecification')
     }
 });

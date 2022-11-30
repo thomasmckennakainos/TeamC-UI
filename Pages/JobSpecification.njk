@@ -28,13 +28,13 @@
             margin-left: auto;
             margin-right: auto;
         }
+        h2.headertekst {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     {% block content %}
-        <h2>
-            Job specification
-        </h2>
         <table class='center'>
             <tr>
                 <th style="width:60%">Job Spec Summary</th>
@@ -42,6 +42,9 @@
             </tr>
             {% if spec %}
                 {% for job in spec %}
+                    <h2 class="headertekst">
+                        {{ job.kainosJobTitle }} - Specification
+                    </h2>
                     <tr>
                         <td>{{ job.jobSpecification }}</td>
                         <td>
