@@ -43,7 +43,7 @@
         {% for job in jobRoles %}
           <tr>
             <td>
-              <a href="/job-specification/{{ job.roleID }}">{{ job.role_title }}</a>
+              <a id= "{{ job.roleID }}" href="/job-specification/{{ job.roleID }}">{{ job.role_title }}</a>
             </td>
           </tr>
         {% endfor %}
