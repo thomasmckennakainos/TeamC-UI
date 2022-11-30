@@ -39,6 +39,7 @@
       <tr>
         <th style="width:60%">Job title</th>
         <th style="width:60%">Capability</th>
+        <th style="width:60%">Band</th>
       </tr>
       {% if jobRoles and jobRoles.length > 0 %}
         {% for job in jobRoles %}
@@ -47,6 +48,7 @@
               <a id= "{{ job.roleID }}" href="/job-specification/{{ job.roleID }}">{{ job.role_title }}</a>
             </td>
             <td> {{ job.capability_name }} </td>
+            <td> {{ job.bandName }} </td>
           </tr>
         {% endfor %}
       {% else %}

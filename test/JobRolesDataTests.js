@@ -8,7 +8,8 @@ const JobRolesData = require('../Database/JobRolesData.js');
 const jobRole = {
     roleID: 1,
     role_title: "test job role 1",
-    capability_name: "test capability"
+    capability_name: "test capability",
+    band_name: "test band"
 }
 
 
@@ -26,6 +27,7 @@ describe('JobRolesData', function () {
         expect(results[0]).to.deep.equal(jobRole);
         expect(results[0].role_title).to.deep.equal(jobRole.role_title)
         expect(results[0].capability_name).to.deep.equal(jobRole.capability_name)
+        expect(results[0].band_name).to.deep.equal(jobRole.band_name)
 
       })
 
