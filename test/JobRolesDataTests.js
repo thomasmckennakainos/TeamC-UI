@@ -7,7 +7,8 @@ const JobRolesData = require('../Database/JobRolesData.js');
 
 const jobRole = {
     roleID: 1,
-    role_title: "test job role 1"
+    role_title: "test job role 1",
+    capability_name: "test capability"
 }
 
 
@@ -22,7 +23,10 @@ describe('JobRolesData', function () {
 
         var results = await JobRolesData.getJobRoles();
 
-        expect(results[0]).to.deep.equal(jobRole)
+        expect(results[0]).to.deep.equal(jobRole);
+        expect(results[0].role_title).to.deep.equal(jobRole.role_title)
+        expect(results[0].capability_name).to.deep.equal(jobRole.capability_name)
+
       })
 
       it('should throw exception when 500 error returned from axios', async () => {
