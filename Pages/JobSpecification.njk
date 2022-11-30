@@ -1,0 +1,60 @@
+<!-- CSS only -->
+<head>
+    <style>
+        table {
+            width: 40%;
+            border: none;
+            border-top: 1px solid #EEEEEE;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        td,
+        th {
+            border: 1px solid #EEEEEE;
+            text-align: left;
+            padding: 8px;
+            color: #363D41;
+            font-size: 14px;
+        },
+        tr {
+            background-color: #fff;
+            border: 1px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            justify-content: flex-start;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2.headertekst {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+        <table class='center'>
+            <tr>
+                <th style="width:60%">Job Spec Summary</th>
+                <th style="width:20%">Sharepoint link</th>
+            </tr>
+            {% if spec %}
+                {% for job in spec %}
+                    <h2 class="headertekst">
+                        {{ job.kainosJobTitle }} - Specification
+                    </h2>
+                    <tr>
+                        <td>{{ job.jobSpecification }}</td>
+                        <td>
+                            <a href="{{ job.jobSpecificationLink }}">View on Sharepoint</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                No job selected
+            {% endif %}
+        </table>
+    {% endblock %}
+</body>

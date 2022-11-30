@@ -1,40 +1,55 @@
-
 <!-- CSS only -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-
-<html lang="en">
 <head>
-  <title>Job Roles</title>
+  <style>
+    table {
+      width: 40%;
+      border: none;
+      border-top: 1px solid #EEEEEE;
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+    td,
+    th {
+      border: 1px solid #EEEEEE;
+      text-align: left;
+      padding: 8px;
+      color: #363D41;
+      font-size: 14px;
+    },
+    tr {
+      background-color: #fff;
+      border: 1px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: flex-start;
+    }
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
 </head>
- 
-{% block content %}
-
-<h1>List of job roles within Kainos</h1> 
-{% if jobRoles and jobRoles.length > 0 %} 
-    {% set jobRows = [] %} 
-
-    {% for jobRole in jobRoles %} 
-
-    {% set jobRows= (jobRows.push([
-                              { text: jobRole.role_title}]),
-                                                jobRows) %} 
-    {% endfor %} 
-
-      <table>
-        <tr>
-          <th>Job Role:</th>
-        </tr>
-        {% asyncAll jobRole in jobRoles %}
-        <tr>
-          <td>{{jobRole.role_title}}</td>
-        </tr>
-        {% endall %}
-      </table>
-
-{% else %}
-
-{{ errormessage }}
-
-{% endif %}
-
-{% endblock %} 
+<body>
+  {% block content %}
+    <h2>
+      Job roles
+    </h2>
+    <table class='center'>
+      <tr>
+        <th style="width:60%">Job title</th>
+      </tr>
+      {% if jobRoles and jobRoles.length > 0 %}
+        {% for job in jobRoles %}
+          <tr>
+            <td>
+              <a href="/job-specification/{{ job.roleID }}">{{ job.role_title }}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      {% else %}
+        {{ errormessage }}
+      {% endif %}
+    </table>
+  {% endblock %}
+</body>
