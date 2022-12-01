@@ -41,17 +41,15 @@
                 <th style="width:20%">Sharepoint link</th>
             </tr>
             {% if spec %}
-                {% for job in spec %}
                     <h2 class="headertekst">
-                        {{ job.kainosJobTitle }} - Specification
+                        {{ spec.kainosJobTitle }} - Specification
                     </h2>
                     <tr>
-                        <td>{{ job.jobSpecification }}</td>
+                        <td>{{ spec.jobSpecification }}</td>
                         <td>
-                            <a href="{{ job.jobSpecificationLink }}">View on Sharepoint</a>
+                            <a href="{{ spec.jobSpecificationLink }}">View on Sharepoint</a>
                         </td>
                     </tr>
-                {% endfor %}
             {% else %}
                 No job selected
             {% endif %}
