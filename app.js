@@ -48,6 +48,7 @@ app.get('/job-specification/:roleid', async (req, res) => {
     }
 });
 
+
 //method to redirect to error page
 app.get('*', function (req, res) {
     res.status(404).render('ErrorPage');
