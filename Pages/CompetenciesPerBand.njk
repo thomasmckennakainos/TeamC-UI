@@ -1,0 +1,63 @@
+<!-- CSS only -->
+<head>
+    <style>
+        table {
+            width: 40%;
+            border: none;
+            border-top: 1px solid #EEEEEE;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        td,
+        th {
+            border: 1px solid #EEEEEE;
+            text-align: left;
+            padding: 8px;
+            color: #363D41;
+            font-size: 14px;
+        },
+        tr {
+            background-color: #fff;
+            border: 1px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            justify-content: flex-start;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h2.headertekst {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+        <table class='center'>
+            <tr>
+                <th style="width:40%">Band name</th>
+                <th style="width:40%">Competency per band</th>
+            </tr>
+            
+            {% if competencies %}
+                                <h2 class="headertekst">
+                       Band name: {{ name }}
+                    </h2>
+                
+                {% for band in competencies %}
+
+                    <tr>
+                        <td>{{ band.bandName }}</td>
+                        <td>
+                            {{ band.competencyName }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                No job selected
+            {% endif %}
+        </table>
+    {% endblock %}
+</body>

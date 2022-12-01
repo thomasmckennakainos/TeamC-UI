@@ -47,7 +47,7 @@
             <td>
               <a id= "{{ job.roleID }}" href="/job-specification/{{ job.roleID }}">{{ job.role_title }}</a>
             </td>
-            <td> {{ job.capability_name }} </td>
+            <td>  <a id= "{{ job.roleID }}" href="/band-competency/{{ job.roleID }}">{{ job.capability_name }}</a></td>
             <td> {{ job.bandName }} </td>
           </tr>
         {% endfor %}
