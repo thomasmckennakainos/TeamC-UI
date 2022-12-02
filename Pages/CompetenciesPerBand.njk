@@ -40,15 +40,13 @@
                 <th style="width:40%"><h2>Competencies:<h2></th>
             </tr>
                 {% if competencies %}
-                    {% for competency in competencies %}
-                            <h1 class="headertekst">
+                    <h1 class="headertekst">
                        Band name: {{ competency.bandName }}
                     </h1>
                     <tr>
+                     {% for name in competencies.competencyName %}
                         <td>
-                        {% for name in competency.competencyName %}
-                            <h3>- {{ name }}<h3>
-                        {% endfor %}
+                             <h3>- {{ name }}<h3>
                         </td>
                     </tr>
                 {% endfor %}
