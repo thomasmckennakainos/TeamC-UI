@@ -17,7 +17,7 @@ describe("CompetencyPerBand", function () {
       const data = [competencies];
       mock.onGet(competencyPerBand.URL + "1").reply(200, data);
       var results = await competencyPerBand.getCompetencyPerBand(1);
-      expect(results.data[0]).to.deep.equal(competencies);
+      expect(results[0]).to.deep.equal(competencies);
     });
 
     it("should throw exception when 500 error returned from axios", async () => {
