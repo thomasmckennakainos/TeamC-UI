@@ -52,12 +52,11 @@ app.get("/job-specification/:roleid", async (req, res) => {
   }
 });
 
-app.get("/band-competency/:roleid", async (req, res) => {
+app.get("/competencies/:bandid", async (req, res) => {
   try {
-    var js = await competencyPerBand.getCompetencyPerBand(req.params.roleid);
+    var js = await competencyPerBand.getCompetencyPerBand(req.params.bandid);
     res.render("CompetenciesPerBand", {
-      competencies: js.data,
-      name: js.data[0].bandName,
+      competencies: js,
     });
   } catch (e) {
     res.locals.errormessage =
