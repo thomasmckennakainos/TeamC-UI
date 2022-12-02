@@ -33,5 +33,17 @@ describe('CreateJobRole', function () {
             }
             expect(error.message).to.equal('Could not create job listing. Request failed with status code 500');
         })
+
+        it('should throw exception when 400 error returned from axios', async () => {
+            var mock = new MockAdapter(axios);
+            mock.onPost(createJobRole.URL, jobRole).reply(400);
+            var error
+            try {
+                await createJobRole.addJobRole(jobRole);
+            } catch (e) {
+                error = e
+            }
+            expect(error.message).to.equal('Could not create job listing. Request failed with status code 400');
+        })
     })
 })
