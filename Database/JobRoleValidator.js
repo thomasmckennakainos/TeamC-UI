@@ -27,7 +27,11 @@ var constraints = {
     },
     link: {
         presence: { allowEmpty: false },
-        url: true
+        url: true,
+        length: {
+            maximum: 35,
+            message: "Must be 255 characters or less"
+        }
     },
 };
 
