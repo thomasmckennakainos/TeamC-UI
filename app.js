@@ -1,13 +1,13 @@
 const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks');
-const { body, validationResult } = require('express-validator');
 var cookieParser = require('cookie-parser')
 const jobdata = require('./Database/JobRolesData.js')
 const jobSpecification = require('./Database/JobSpecification.js')
 const createJobRole = require('./Database/CreateJobRole.js')
 const jobBands = require('./Database/JobBands.js')
 const jobFamilies = require('./Database/JobFamilies.js')
+const jobRoleValidator = require('./Database/JobRoleValidator.js')
 
 // app setup
 app.use(cookieParser());
@@ -58,39 +58,15 @@ app.get('/create-job-role', async function (req, res) {
     res.render('CreateJobRole', { band: bands.data, family: families.data })
 });
 
-app.post('/create-job-role',
-    body('band').isInt().trim().escape(),
-    body('family').isInt().trim().escape(),
-    body('title').not().isEmpty().trim().escape(),
-    body('specification').not().isEmpty().trim().escape(),
-    body('link').isURL({ protocols: ['https'] })
-        .custom((url) => {
-            url = new URL(url);
-            return (
-                !url.hash && !url.query
-                && url.pathname.substr(url.pathname.length - 1) === '/'
-            );
-        }),
-    async (req, res) => {
-        try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                console.log(errors.errors[0].msg)
-                throw new Error(errors.errors[0].msg +' for ' + errors.errors[0].param)
-            }
-            var jobObject = {
-                "band_id": req.body.band,
-                "job_family_id": req.body.family,
-                "kainos_job_title": req.body.title,
-                "job_specification": req.body.specification,
-                "job_spec_link": req.body.link
-            };
-            await createJobRole.addJobRole(jobObject);
-            res.redirect('/jobRoles');
-        } catch (e) {
-            res.render('ErrorPage', { err: e })
-        }
-    })
+app.post('/create-job-role', async (req, res) => {
+    try {
+        var validJob = jobRoleValidator.isValidJobRole(req.body)
+        await createJobRole.addJobRole(validJob);
+        res.redirect('/jobRoles');
+    } catch (e) {
+        res.render('ErrorPage', { err: e })
+    }
+})
 
 //method to redirect to error page
 app.get('*', function (req, res) {
