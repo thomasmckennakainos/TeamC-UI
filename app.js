@@ -8,6 +8,7 @@ const createJobRole = require("./Database/CreateJobRole.js");
 const jobBands = require("./Database/JobBands.js");
 const jobFamilies = require("./Database/JobFamilies.js");
 const jobRoleValidator = require("./Database/JobRoleValidator.js");
+const { editJobRole } = require("./Database/EditJobRole.js");
 
 // app setup
 app.use(cookieParser());
@@ -65,6 +66,29 @@ app.post("/create-job-role", async (req, res) => {
   try {
     var validJob = jobRoleValidator.isValidJobRole(req.body);
     await createJobRole.addJobRole(validJob);
+    res.redirect("/jobRoles");
+  } catch (e) {
+    res.render("ErrorPage", { err: e });
+  }
+});
+
+//US015 - update job role
+app.get("/edit-job-role/:roleid", async (req, res) => {
+  try {
+    var results = await editJobRole.getJobRoleData(req.params.roleid);
+    console.log(results);
+    res.render("EditJobRole", { roleDetails: results });
+  } catch (e) {
+    res.locals.errormessage =
+      "Sorry, we couldn't load job role details! \nError details: " + e;
+    return res.render("EditJobRole");
+  }
+});
+
+app.post("/edit-job-role/:roleid", async (req, res) => {
+  try {
+    var validJob = jobRoleValidator.isValidJobRole(req.body);
+    await editJobRole.editJobRole(req.params.roleid, validJob);
     res.redirect("/jobRoles");
   } catch (e) {
     res.render("ErrorPage", { err: e });

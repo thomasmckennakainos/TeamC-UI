@@ -312,7 +312,7 @@
                         <div class="">
                             <form action="/update-job-role" method="PUT">
                                 <div class="input_field">
-                                    <input type="text" title="Enter job title, with no leading or trailing whitespace" name="title" placeholder="Job Title" maxlength="35" required="required" pattern="^[^ ].+[^ ]$"/>
+                                    <input type="text" title="Enter job title, with no leading or trailing whitespace" name="title"  maxlength="35" required="required" pattern="^[^ ].+[^ ]$">{{ roleDetails.role_title }}</input>
                                 </div>
                                 <div class="input_field">
                                     <input
