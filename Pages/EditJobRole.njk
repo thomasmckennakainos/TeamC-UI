@@ -310,15 +310,15 @@
                     </div>
                     <div class="row clearfix">
                         <div class="">
-                            <form action="/edit-job-role" method="PUT">
+                            <form action="/edit-job-role/{{roleDetails.id}}" method="POST">
                                 <div class="input_field">
-                                    <input type="text" title="Enter job title, with no leading or trailing whitespace" name="title"  maxlength="35" required="required" pattern="^[^ ].+[^ ]$" value= "{{ roleDetails.role_title }}"/>
+                                    <input type="text" title="Enter job title, with no leading or trailing whitespace" name="role_title"  maxlength="35" required="required" pattern="^[^ ].+[^ ]$" value= "{{ roleDetails.role_title }}"/>
                                 </div>
                                 <div class="input_field">
                                     <input
                                         type="text"
                                         title="Enter sharepoint link, with no leading or trailing whitespace"
-                                        name="link"
+                                        name="jobSpecLink"
                                         placeholder="Sharepoint Link"
                                         value= {{roleDetails.jobSpecLink}}
                                         maxlength="500"
@@ -328,7 +328,7 @@
                                 <div class="row clearfix">
                                     <div class="col_half">
                                         <div class="input_field select_option">
-                                            <select name="band" required="required">
+                                            <select name="bandId" required="required">
                                                 {% for b in band %}
                                                  {% if roleDetails.bandId == b.id  %}
                                                     <option value={{roleDetails.jobFamilyId}} disabled="disabled" selected="selected" hidden="hidden">
@@ -349,7 +349,7 @@
                                     </div>
                                     <div class="col_half">
                                         <div class="input_field select_option">
-                                            <select name="family" required="required">
+                                            <select name="jobFamilyId" required="required">
                                                 {% for f in family %}
                                                  {% if roleDetails.jobFamilyId == f.id  %}
                                                     <option value={{roleDetails.jobFamilyId}} disabled="disabled" selected="selected" hidden="hidden">
@@ -362,7 +362,7 @@
                                                         <option value={{f.id}}>{{ f.jobFamily }}</option>
                                                     {% endfor %}
                                                 {% else %}
-                                                    {{ errormessage }}
+                                                    {{ errormessage }} 
                                                 {% endif %}
                                             </select>
                                             <div class="select_arrow"></div>
@@ -373,7 +373,7 @@
                                     <textarea
                                         type="spec"
                                         title="Enter job specification, with no leading or trailing whitespace"
-                                        name="specification"
+                                        name="jobSpecification"
                                         placeholder="Specification Summary"
                                         maxlength="1000"
                                         required="required">{{roleDetails.jobSpecification}}</textarea>

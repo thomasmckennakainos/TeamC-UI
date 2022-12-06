@@ -8,6 +8,7 @@ const createJobRole = require("./Database/CreateJobRole.js");
 const jobBands = require("./Database/JobBands.js");
 const jobFamilies = require("./Database/JobFamilies.js");
 const jobRoleValidator = require("./Database/JobRoleValidator.js");
+const jobRoleUpdateValidator = require("./Database/JobRoleUpdateValidator");
 const editJobRole = require("./Database/EditJobRole.js");
 
 // app setup
@@ -64,7 +65,7 @@ app.get("/create-job-role", async function (req, res) {
 
 app.post("/create-job-role", async (req, res) => {
   try {
-    var validJob = jobRoleValidator.isValidJobRole(req.body);
+    var validJob = job.isValidJobRole(req.body);
     await createJobRole.addJobRole(validJob);
     res.redirect("/jobRoles");
   } catch (e) {
@@ -83,7 +84,6 @@ app.get("/edit-job-role/:id", async (req, res) => {
       band: bands.data,
       family: families.data,
     });
-    console.log(results, "ttt");
   } catch (e) {
     res.locals.errormessage =
       "Sorry, we couldn't load job role details! \nError details: " + e;
@@ -91,11 +91,13 @@ app.get("/edit-job-role/:id", async (req, res) => {
   }
 });
 
-app.post("/edit-job-role/:roleid", async (req, res) => {
+app.post("/edit-job-role/:id", async (req, res) => {
   try {
-    var validJob = jobRoleValidator.isValidJobRole(req.body);
-    await editJobRole.editJobRole(req.params.roleid, validJob);
-    res.redirect("/jobRoles");
+    const id = req.params.id;
+    console.log(req.body);
+    var validJob = jobRoleUpdateValidator.isUpdatedJobRoleValid(req.body);
+    await editJobRole.editJobRoles(validJob, id);
+    res.redirect("/edit-job-role/" + id);
   } catch (e) {
     res.render("ErrorPage", { err: e });
   }

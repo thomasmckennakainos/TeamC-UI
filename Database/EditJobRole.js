@@ -3,7 +3,16 @@ axios.defaults.baseURL = process.env.API_URL;
 
 exports.URL = "/api/job-roles/";
 
-exports.editJobRole = async (id, job) => {
+exports.getJobRoleData = async (id) => {
+  try {
+    const results = await axios.get(this.URL + id);
+    return results.data;
+  } catch (e) {
+    return new Error("Could not get job details");
+  }
+};
+
+exports.editJobRoles = async (job, id) => {
   try {
     const results = await axios.put(this.URL + id, job);
     return results;
@@ -11,14 +20,5 @@ exports.editJobRole = async (id, job) => {
     return Promise.reject(
       new Error("Could not update job details. " + e.message)
     );
-  }
-};
-
-exports.getJobRoleData = async (id) => {
-  try {
-    const results = await axios.get(this.URL + id);
-    return results.data;
-  } catch (e) {
-    return new Error("Could not get job details");
   }
 };
