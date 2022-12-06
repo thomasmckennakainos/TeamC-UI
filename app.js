@@ -10,6 +10,7 @@ const competencyPerBand = require("./Database/CompetencyPerBand");
 // app setup
 app.use(cookieParser());
 app.set("view engine", "njk");
+app.use(express.static('assets/img'))
 
 nunjucks.configure("Pages", {
   express: app,
@@ -29,6 +30,10 @@ app.get("/cookie", async (req, res) => {
   console.log(req.cookies);
 });
 
+app.get("/", async (req, res) => {
+  res.render("LandingPage");
+});
+
 //US001 - view Job Roles
 app.get("/jobRoles", async (req, res) => {
   try {
@@ -44,7 +49,7 @@ app.get("/jobRoles", async (req, res) => {
 app.get("/job-specification/:roleid", async (req, res) => {
   try {
     var js = await jobSpecification.getJobSpecification(req.params.roleid);
-    res.render("JobSpecification", { spec: js.data });
+    res.send(js.data );
   } catch (e) {
     res.locals.errormessage =
       "Sorry, we couldn't load that specification! \n Error details: " + e;
