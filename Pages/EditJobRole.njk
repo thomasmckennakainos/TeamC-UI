@@ -1,7 +1,7 @@
 <!-- CSS only -->
 <html lang="en">
     <head>
-        <title>Update an existing job role</title>
+        <title>Edit an existing job role</title>
         <link
             rel="icon"
             type="image/x-icon"
@@ -20,7 +20,7 @@
             }
             .form_wrapper {
                 background: #fff;
-                width: 400px;
+                width: 600px;
                 max-width: 100%;
                 box-sizing: border-box;
                 padding: 25px;
@@ -310,7 +310,7 @@
                     </div>
                     <div class="row clearfix">
                         <div class="">
-                            <form action="/update-job-role" method="PUT">
+                            <form action="/edit-job-role" method="PUT">
                                 <div class="input_field">
                                     <input type="text" title="Enter job title, with no leading or trailing whitespace" name="title"  maxlength="35" required="required" pattern="^[^ ].+[^ ]$" value= "{{ roleDetails.role_title }}"/>
                                 </div>
@@ -330,12 +330,19 @@
                                         <div class="input_field select_option">
                                             <select name="band" required="required">
                                                 {% for b in band %}
-                                                  {% if roleDetails.bandId == b.id  %}
-                                                    <option value={{b.id}} disabled="disabled" selected="selected" hidden="hidden" >{{ b.bandName }}</option>
-                                                  {% else %}
-                                                    {{ errormessage }}
+                                                 {% if roleDetails.bandId == b.id  %}
+                                                    <option value={{roleDetails.jobFamilyId}} disabled="disabled" selected="selected" hidden="hidden">
+                                                      {{ b.bandName }}
+                                                    </option>                             
                                                   {% endif %}
                                                 {% endfor %}
+                                                {% if band and band.length > 0 %}
+                                                    {% for b in band %}
+                                                        <option value={{b.id}}>{{ b.bandName }}</option>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {{ errormessage }}
+                                                {% endif %}
                                             </select>
                                             <div class="select_arrow"></div>
                                         </div>
@@ -344,12 +351,19 @@
                                         <div class="input_field select_option">
                                             <select name="family" required="required">
                                                 {% for f in family %}
-                                                  {% if roleDetails.jobFamilyId == f.id  %}
-                                                    <option value={{f.id}} disabled="disabled" selected="selected" hidden="hidden">{{ f.jobFamily }}</option>
-                                                  {% else %}
-                                                    {{ errormessage }}
+                                                 {% if roleDetails.jobFamilyId == f.id  %}
+                                                    <option value={{roleDetails.jobFamilyId}} disabled="disabled" selected="selected" hidden="hidden">
+                                                      {{ f.jobFamily }}
+                                                    </option>                             
                                                   {% endif %}
                                                 {% endfor %}
+                                                {% if family and family.length > 0 %}
+                                                    {% for f in family %}
+                                                        <option value={{f.id}}>{{ f.jobFamily }}</option>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {{ errormessage }}
+                                                {% endif %}
                                             </select>
                                             <div class="select_arrow"></div>
                                         </div>
@@ -368,7 +382,7 @@
                                     <input type="checkbox" id="cb1" required="required">
                                     <label for="cb1">I confirm the above details are correct</label>
                                 </div>
-                                <input class="button" type="submit" value="Update Job Details"/>
+                                <input class="button" type="submit" value="Edit Job Details"/>
                                 <a href="/jobRoles" aria-label="cancel button">
                                     <input class="button" type="button" value="Cancel"/>
                                 </a>
