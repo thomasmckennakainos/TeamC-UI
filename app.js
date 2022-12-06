@@ -8,7 +8,7 @@ const createJobRole = require("./Database/CreateJobRole.js");
 const jobBands = require("./Database/JobBands.js");
 const jobFamilies = require("./Database/JobFamilies.js");
 const jobRoleValidator = require("./Database/JobRoleValidator.js");
-const { editJobRole } = require("./Database/EditJobRole.js");
+const editJobRole = require("./Database/EditJobRole.js");
 
 // app setup
 app.use(cookieParser());
@@ -73,11 +73,17 @@ app.post("/create-job-role", async (req, res) => {
 });
 
 //US015 - update job role
-app.get("/edit-job-role/:roleid", async (req, res) => {
+app.get("/edit-job-role/:id", async (req, res) => {
   try {
-    var results = await editJobRole.getJobRoleData(req.params.roleid);
-    console.log(results);
-    res.render("EditJobRole", { roleDetails: results });
+    var results = await editJobRole.getJobRoleData(req.params.id);
+    let bands = await jobBands.getBands();
+    let families = await jobFamilies.getFamilies();
+    res.render("EditJobRole", {
+      roleDetails: results,
+      band: bands.data,
+      family: families.data,
+    });
+    console.log(results, "ttt");
   } catch (e) {
     res.locals.errormessage =
       "Sorry, we couldn't load job role details! \nError details: " + e;

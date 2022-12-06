@@ -17,7 +17,7 @@ exports.editJobRole = async (id, job) => {
 exports.getJobRoleData = async (id) => {
   try {
     const results = await axios.get(this.URL + id);
-    return results;
+    return results.data;
   } catch (e) {
     return new Error("Could not get job details");
   }
