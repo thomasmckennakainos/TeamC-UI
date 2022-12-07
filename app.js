@@ -16,6 +16,7 @@ const deleteJobRoleData  = require('./Database/DeleteJobRoleData.js');
 // app setup
 app.use(cookieParser());
 app.set("view engine", "njk");
+app.use(express.static('assets'))
 
 nunjucks.configure("Pages", {
   express: app,
@@ -35,26 +36,27 @@ app.get("/cookie", async (req, res) => {
   console.log(req.cookies);
 });
 
+app.get("/", async (req, res) => {
+  res.render("LandingPage");
+});
+
 //US001 - view Job Roles
 app.get("/jobRoles", async (req, res) => {
   try {
     let jr = await jobdata.getJobRoles();
     res.render("list-jobRoles", { jobRoles: jr });
   } catch (e) {
-    res.locals.errormessage = e;
-    return res.render("list-jobRoles");
+    res.render('ErrorPage', { err: e })
   }
 });
 
 //US002 - view Job Specification
-app.get("/job-specification/:roleid", async (req, res) => {
+app.get('/job-specification/:roleid', async (req, res) => {
   try {
-    var js = await jobSpecification.getJobSpecification(req.params.roleid);
-    res.render("JobSpecification", { spec: js.data });
+      var js = await jobSpecification.getJobSpecification(req.params.roleid);
+      res.send(js.data);
   } catch (e) {
-    res.locals.errormessage =
-      "Sorry, we couldn't load that specification! \nError details: " + e;
-    return res.render("JobSpecification");
+      res.send(e.message);
   }
 });
 
@@ -107,13 +109,9 @@ app.post("/edit-job-role/:id", async (req, res) => {
 app.get("/competencies/:bandid", async (req, res) => {
   try {
     var js = await competencyPerBand.getCompetencyPerBand(req.params.bandid);
-    res.render("CompetenciesPerBand", {
-      competencies: js,
-    });
+    res.send(js);
   } catch (e) {
-    res.locals.errormessage =
-      "Sorry, we couldn't load that specification! \n Error details: " + e;
-    return res.render("CompetenciesPerBand");
+    res.send(e.message);
   }
 });
 

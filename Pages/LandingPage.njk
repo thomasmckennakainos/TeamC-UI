@@ -1,0 +1,119 @@
+{% include("Navbar.njk") %}
+<html lang="en">
+    <title>Kainos job site</title>
+    <div id="main">
+        <head>
+            <style>
+                * {
+                    transition: all 0.6s;
+                }
+                @font-face {
+                    font-family: 'gothic';
+                    src: url('/font/GOTHIC/GOTHIC.ttf') format('truetype');
+                    font-weight: normal;
+                    font-style: normal;
+                }
+                @font-face {
+                    font-family: 'gothic';
+                    src: url('/font/GOTHIC/GOTHICB.ttf') format('truetype');
+                    font-weight: bold;
+                    font-style: normal;
+                }
+                html {
+                    height: 100%;
+                }
+                body {
+                    font-family: 'Lato', sans-serif;
+                    color: #888;
+                    margin: 0;
+                }
+                p {
+                    font-size: calc(30px + 2vw);
+                    line-height: 0.8;
+                    font-family: 'gothic';
+                }
+                p.indent {
+                    text-indent: 70px;
+                }
+                .blue {
+                    color: #0071bc;
+                }
+                .green {
+                    color: #007a78;
+                }
+                .purple {
+                    color: #d64c1d;
+                }
+                .button {
+                    background-color: #e1a70a;
+                    border: none;
+                    color: black;
+                    padding: 15px 32px;
+                    text-align: center;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: calc(20px + 1vw);
+                    margin: 4px 2px;
+                    cursor: pointer;
+                    font-family: 'gothic';
+                }
+                .button:hover {
+                    background: #FBBAFF;
+                }
+                .bracket2 {
+                    color: #d64c1d;
+                    animation: type 0.5s alternate infinite;
+                }
+                #main {
+                    display: table;
+                    width: 100%;
+                    height: 90vh;
+                    text-align: center;
+                }
+                .fof {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+                .fof h1 {
+                    font-size: 50px;
+                    display: inline-block;
+                    padding-right: 12px;
+                    animation: type 0.5s alternate infinite;
+                }
+                @keyframes type {
+                    from {
+                        box-shadow: inset -3px 0 0 #888;
+                    }
+                    to {
+                        box-shadow: inset -3px 0 0 transparent;
+                    }
+                }
+            </style>
+        </head>
+        <body>
+            <div class="fof">
+                <div style="text-align: center;">
+                    <div style="display: inline-block; text-align: left;">
+                        <p>
+                            <span class="purple">if</span>
+                            <span>(</span>
+                            <span class="blue">looking_for_new_job</span>
+                            <span>)</span>
+                            <span>{</span>
+                        </p>
+                        <p class="indent">
+                            <span class="green">lookNoFurther</span>
+                            <span class="bracket2">()</span>
+                        </p>
+                        <p>}</p>
+                    </div>
+                </div>
+                <br>
+                    <br>
+                        <a href="/jobRoles" class="button">View roles</a>
+                    </div>
+                </div>
+            </div>
+        </body>
+    </div>
+</html>
