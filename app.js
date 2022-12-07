@@ -10,6 +10,7 @@ const jobFamilies = require("./Database/JobFamilies.js");
 const jobRoleValidator = require("./Database/JobRoleValidator.js");
 const jobRoleUpdateValidator = require("./Database/JobRoleUpdateValidator");
 const editJobRole = require("./Database/EditJobRole.js");
+const competencyPerBand = require("./Database/CompetencyPerBand");
 
 // app setup
 app.use(cookieParser());
@@ -100,6 +101,19 @@ app.post("/edit-job-role/:id", async (req, res) => {
     res.redirect("/edit-job-role/" + id);
   } catch (e) {
     res.render("ErrorPage", { err: e });
+  }
+});
+
+app.get("/competencies/:bandid", async (req, res) => {
+  try {
+    var js = await competencyPerBand.getCompetencyPerBand(req.params.bandid);
+    res.render("CompetenciesPerBand", {
+      competencies: js,
+    });
+  } catch (e) {
+    res.locals.errormessage =
+      "Sorry, we couldn't load that specification! \n Error details: " + e;
+    return res.render("CompetenciesPerBand");
   }
 });
 
