@@ -9,6 +9,7 @@ const jobBands = require('./Database/JobBands.js')
 const jobFamilies = require('./Database/JobFamilies.js')
 const jobRoleValidator = require('./Database/JobRoleValidator.js')
 const competencyPerBand = require("./Database/CompetencyPerBand");
+const deleteJobRoleData  = require('./Database/DeleteJobRoleData.js');
 
 // app setup
 app.use(cookieParser());
@@ -82,6 +83,23 @@ app.get("/competencies/:bandid", async (req, res) => {
       "Sorry, we couldn't load that specification! \n Error details: " + e;
     return res.render("CompetenciesPerBand");
   }
+});
+
+//US020 - Delete a job role
+app.get('/deleteJobRole/:roleid', async (req, res) => {
+  try {
+    await deleteJobRoleData.deleteJobRole(req.params.roleid);
+    res.redirect("/jobRoles");
+} catch (e)
+{
+  res.locals.errormessage = "Unable to complete delete process " + e;
+  return res.render('list-jobRoles');
+} 
+});
+
+//method to redirect to error page
+app.get('*', function (req, res) {
+  res.status(404).render('ErrorPage');
 });
 
 //method to redirect to error page

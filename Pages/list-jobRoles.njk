@@ -40,6 +40,7 @@
         <th style="width:60%">Job title</th>
         <th style="width:60%">Capability</th>
         <th style="width:60%">Band</th>
+        <th style="width:60%">Delete</th>
       </tr>
       {% if jobRoles and jobRoles.length > 0 %}
         {% for job in jobRoles %}
@@ -49,6 +50,11 @@
             </td>
             <td> {{ job.capability_name }} </td>
             <td> <a id= "{{ job.bandId }}" href="/competencies/{{ job.bandId }}">{{ job.bandName }}</a></td>
+            <td>
+              <a href="/deleteJobRole/{{job.roleID }}">
+                <input class="button" type="button" value="Delete"/>
+              </a>
+            </td>
           </tr>
         {% endfor %}
       {% else %}
