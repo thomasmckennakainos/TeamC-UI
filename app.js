@@ -50,30 +50,30 @@ app.get("/jobRoles", async (req, res) => {
 
 //US002 - view Job Specification
 app.get('/job-specification/:roleid', async (req, res) => {
-    try {
-        var js = await jobSpecification.getJobSpecification(req.params.roleid);
-        res.render('JobSpecification', { spec: js.data })
-    } catch (e) {
-        res.locals.errormessage = "Sorry, we couldn't load that specification! \nError details: " + e;
-        return res.render('JobSpecification')
-    }
+  try {
+    var js = await jobSpecification.getJobSpecification(req.params.roleid);
+    res.render('JobSpecification', { spec: js.data })
+  } catch (e) {
+    res.locals.errormessage = "Sorry, we couldn't load that specification! \nError details: " + e;
+    return res.render('JobSpecification')
+  }
 });
 
 //US015 - create job role
 app.get('/create-job-role', async function (req, res) {
-    let bands = await jobBands.getBands();
-    let families = await jobFamilies.getFamilies();
-    res.render('CreateJobRole', { band: bands.data, family: families.data })
+  let bands = await jobBands.getBands();
+  let families = await jobFamilies.getFamilies();
+  res.render('CreateJobRole', { band: bands.data, family: families.data })
 });
 
 app.post('/create-job-role', async (req, res) => {
-    try {
-        var validJob = jobRoleValidator.isValidJobRole(req.body)
-        await createJobRole.addJobRole(validJob);
-        res.redirect('/jobRoles');
-    } catch (e) {
-        res.render('ErrorPage', { err: e })
-    }
+  try {
+    var validJob = jobRoleValidator.isValidJobRole(req.body)
+    await createJobRole.addJobRole(validJob);
+    res.redirect('/jobRoles');
+  } catch (e) {
+    res.render('ErrorPage', { err: e })
+  }
 })
 
 app.get("/competencies/:bandid", async (req, res) => {
@@ -96,18 +96,18 @@ app.get('/register', (req, res) => {
 app.post('/register', async (req, res) => {
 
   var newUser = {
-      "email": req.body.email,
-      "password": req.body.password,
-      "role": req.body.role
+    "email": req.body.email,
+    "password": req.body.password,
+    "role": req.body.role
   };
 
   if (validator.validateNewUser(newUser) == null) {
-      const user = register.registerNewUser(newUser);
-      res.locals.confirmationmessage = newUser.role + " registered";
-      res.render('Registration');
+    const user = register.registerNewUser(newUser);
+    res.locals.confirmationmessage = newUser.role + " registered";
+    res.render('Registration');
   } else {
-      res.locals.errormessage = validator.validateNewUser(newUser);
-      res.render('Registration');
+    res.locals.errormessage = validator.validateNewUser(newUser);
+    res.render('Registration');
   }
 
 })
