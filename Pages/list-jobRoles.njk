@@ -10,7 +10,15 @@
     <style>
         @font-face {
             font-family: 'gothic';
-            src: url('./assets/fonts/GOTHIC/GITHIC.ttf')
+            src: url('/font/GOTHIC/GOTHIC.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'gothic';
+            src: url('/font/GOTHIC/GOTHICB.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
         }
         body {
             font-family: Arial;
@@ -49,6 +57,7 @@
             width: 60%;
             height: auto;
             font-family: 'gothic';
+            word-break: break-word;
         }
         .specdetails {
             border-radius: 5px;
@@ -62,8 +71,9 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translate(-50%, -60%);
             font-family: 'gothic';
+            word-break: break-word;
         }
         .endcard {
             border-top: 1px solid #7b7b7b;
@@ -85,7 +95,7 @@
             background-color: #288629;
             border: 0;
             color: #fff;
-            font-size: 0.9em;
+            font-size: 12px;
             padding: 12px 25px;
             letter-spacing: 1px;
             position: fixed;
@@ -94,10 +104,11 @@
             transform: translate(-50%, -50%);
             width: 200px;
             font-family: 'gothic';
+            cursor: pointer;
         }
         h2 {
             display: block;
-            font-size: 20px;
+            font-size: 22px;
             margin: 0.2em 0;
             font-weight: bold;
             font-family: 'gothic';
@@ -107,6 +118,14 @@
             font-size: 18px;
             margin: 0.1em 0;
             font-family: 'gothic';
+        }
+        .detailstitle {
+            display: block;
+            font-size: 22px;
+            margin: 0.2em 0;
+            font-weight: bold;
+            font-family: 'gothic';
+            color: #333333;
         }
         .editbtn {
             width: auto;
@@ -132,11 +151,7 @@
         }
         .emptystate {
             text-align: center;
-            padding-top: 20vh;
-        }
-        @media(max-width: 767px) {
-            .right {
-            }
+            padding-top: 16vh;
         }
         ::-webkit-scrollbar {
             display: none;
@@ -146,7 +161,7 @@
         <div class="split left">
             <div class="cards">
                 {% for job in jobRoles %}
-                    <div class="card" id="{{ job.roleID }}" onkeyup="onKeyUp(event,{{ job.roleID }})" onclick="ajaxRequest({{ job.roleID }})" tabindex="{{ job.roleID }}">
+                    <div class="card" id="{{ job.roleID }}" onkeyup="onKeyUp(event,{{ job.roleID }})" onclick="ajaxRequest({{ job.roleID }}, {{ job.bandId }})" tabindex="{{ job.roleID }}">
                         <button class="deletebtn" onclick="deleteRole('{{ job.role_title }}',{{ job.roleID }})">Delete
                             <i class="fa fa-trash"></i>
                         </button>
@@ -171,8 +186,13 @@
             <br><br><br>
             <div class="split right">
                 <div class="specdetails">
-                    <h2 id="jobtitle" aria-hidden="true"></h2><br><p id="spectitle"></p>
+                    <p class="detailstitle" id="jobtitle" aria-hidden="true"></p>
+                    <br>
+                    <p id="spectitle" style="font-weight: bold"></p>
                     <p id="spec"></p>
+                    <br>
+                    <p id="comptitle" style="font-weight: bold"></p>
+                    <p id="competencies"></p>
                     <a id="splink">
                         <button id="spbutton" class="bttn" hidden>View on Sharepoint</button>
                     </a>
@@ -184,7 +204,7 @@
             function deleteRole(x, id) {
                 var del = window.confirm("Are you sure you want to delete " + x + "?");
                 if (del === true) {
-                    window.location.href = "/delete/" + id;
+                    window.location.replace("delete/" + id);
                 }
             }
             function onKeyUp(e, id) {
@@ -192,17 +212,23 @@
                     ajaxRequest(id);
                 }
             }
-            function ajaxRequest(id) { // declare the variable at the top, even though it will be null at first
-                var req = null;
-                // figure out what kind of support we have for the XMLHttpRequest object
-                if (window.XMLHttpRequest) { // modern browsers
-                    req = new XMLHttpRequest();
-                } else { // good ol' lousy IE
-                    req = new ActiveXObject("Microsoft.XMLHTTP");
+            function ajaxRequest(jobId, bandId) {
+                var specReq = null;
+                var compReq = null;
+                if (window.XMLHttpRequest) {
+                    specReq = new XMLHttpRequest();
+                    compReq = new XMLHttpRequest();
+                } else {
+                    specReq = new ActiveXObject("Microsoft.XMLHTTP");
+                    compReq = new ActiveXObject("Microsoft.XMLHTTP");
                 };
-                req.onreadystatechange = function () {
-                    if (req.readyState === 4 && req.status === 200 && req.responseText !== 'Could not get job specification') {
-                        var json = JSON.parse(req.responseText);
+                specReq.onreadystatechange = function () {
+                    if (
+                        specReq.readyState === 4 &&
+                        specReq.status === 200 &&
+                        specReq.responseText !== 'Could not get job specification'
+                    ) {
+                        var json = JSON.parse(specReq.responseText);
                         document.getElementById('empty').innerHTML = '';
                         document.getElementById('spectitle').innerHTML = 'Job Specification:';
                         document.getElementById('spec').innerHTML = json.jobSpecification;
@@ -210,13 +236,23 @@
                         document.getElementById('splink').href = json.jobSpecificationLink;
                         document.getElementById('spbutton').removeAttribute("hidden") = json.jobSpecificationLink;
                     } else {
-                        document.getElementById('empty').innerHTML = req.responseText;
+                        document.getElementById('empty').innerHTML = specReq.responseText;
                     }
                 };
-                req.open("GET", "job-specification/" + id, true);
-                req.send();
+                compReq.onreadystatechange = function () {
+                    if (compReq.readyState === 4 && compReq.status === 200) {
+                        console.log(bandId)
+                        console.log(compReq.responseText);
+                        var json = JSON.parse(compReq.responseText);
+                        document.getElementById('competencies').innerHTML = String(json.competencyName).replace(/,/g, ", ") + ".";
+                        document.getElementById('comptitle').innerHTML = json.bandName + ' Competencies:';
+                    }
+                }
+                specReq.open("GET", "job-specification/" + jobId, true);
+                specReq.send();
+                compReq.open("GET", "competencies/" + bandId, true);
+                compReq.send();
             };
-            document.getElementById('request').onclick = ajaxRequest;
         </script>
     </body>
 </html>

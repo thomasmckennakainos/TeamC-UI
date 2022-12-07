@@ -8,7 +8,15 @@
         <style>
             @font-face {
                 font-family: 'gothic';
-                src: url('./assets/fonts/GOTHIC/GITHIC.ttf')
+                src: url('/font/GOTHIC/GOTHIC.ttf') format('truetype');
+                font-weight: normal;
+                font-style: normal;
+            }
+            @font-face {
+                font-family: 'gothic';
+                src: url('/font/GOTHIC/GOTHICB.ttf') format('truetype');
+                font-weight: bold;
+                font-style: normal;
             }
             ul {
                 list-style-type: none;
@@ -48,11 +56,11 @@
         <ul>
             <li class="logo">
                 <a class="nopadding" href="/">
-                    <img src="kainoslogo.png" alt="logo" style="width:130px;">
+                    <img src="/img/kainoslogo.png" alt="logo" style="width:130px;">
                 </a>
             </li>
             <li>
-                <a href="/test">Create role</a>
+                <a href="/create-job-role">Create role</a>
             </li>
             <li>
                 <a href="/jobRoles">View roles</a>

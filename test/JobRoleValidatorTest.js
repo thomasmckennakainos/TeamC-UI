@@ -168,7 +168,7 @@ describe('JobRoleValidator', function () {
             } catch (e) {
                 errorMessage = e
             }
-            expect(errorMessage.toString()).to.equal("Error: Link Must be 255 characters or less");
+            expect(errorMessage.toString()).to.equal("Error: Link Must be 500 characters or less");
         })
     })
 })

@@ -13,7 +13,7 @@ const competencyPerBand = require("./Database/CompetencyPerBand");
 // app setup
 app.use(cookieParser());
 app.set("view engine", "njk");
-app.use(express.static('assets/img'))
+app.use(express.static('assets'))
 
 nunjucks.configure("Pages", {
   express: app,
@@ -43,20 +43,18 @@ app.get("/jobRoles", async (req, res) => {
     let jr = await jobdata.getJobRoles();
     res.render("list-jobRoles", { jobRoles: jr });
   } catch (e) {
-    res.locals.errormessage = e;
-    return res.render("list-jobRoles");
+    res.render('ErrorPage', { err: e })
   }
 });
 
 //US002 - view Job Specification
-app.get("/job-specification/:roleid", async (req, res) => {
+app.get('/job-specification/:roleid', async (req, res) => {
   try {
-    var js = await jobSpecification.getJobSpecification(req.params.roleid);
-    res.send(js.data );
+      var js = await jobSpecification.getJobSpecification(req.params.roleid);
+      console.log(js);
+      res.send(js.data);
   } catch (e) {
-    res.locals.errormessage =
-      "Sorry, we couldn't load that specification! \n Error details: " + e;
-    return res.render("JobSpecification");
+      res.send(e.message);
   }
 });
 
@@ -80,13 +78,10 @@ app.post('/create-job-role', async (req, res) => {
 app.get("/competencies/:bandid", async (req, res) => {
   try {
     var js = await competencyPerBand.getCompetencyPerBand(req.params.bandid);
-    res.render("CompetenciesPerBand", {
-      competencies: js,
-    });
+    console.log(js);
+    res.send(js);
   } catch (e) {
-    res.locals.errormessage =
-      "Sorry, we couldn't load that specification! \n Error details: " + e;
-    return res.render("CompetenciesPerBand");
+    res.send(e.message);
   }
 });
 
