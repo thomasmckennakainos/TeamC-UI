@@ -1,14 +1,19 @@
+var CryptoJS = require("crypto-js");
+
 const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks');
-var cookieParser = require('cookie-parser')
-const jobdata = require('./Database/JobRolesData.js')
-const jobSpecification = require('./Database/JobSpecification.js')
+const { v4: uuidv4 } = require('uuid');
+var cookieParser = require('cookie-parser');
+const jobdata = require('./Database/JobRolesData.js');
+const jobSpecification = require('./Database/JobSpecification.js');
 const createJobRole = require('./Database/CreateJobRole.js')
 const jobBands = require('./Database/JobBands.js')
 const jobFamilies = require('./Database/JobFamilies.js')
 const jobRoleValidator = require('./Database/JobRoleValidator.js')
 const competencyPerBand = require("./Database/CompetencyPerBand");
+const register = require('./Database/Register.js');
+const validator = require('./validator/RegisterNewUserValidator.js');
 
 // app setup
 app.use(cookieParser());
@@ -45,30 +50,30 @@ app.get("/jobRoles", async (req, res) => {
 
 //US002 - view Job Specification
 app.get('/job-specification/:roleid', async (req, res) => {
-    try {
-        var js = await jobSpecification.getJobSpecification(req.params.roleid);
-        res.render('JobSpecification', { spec: js.data })
-    } catch (e) {
-        res.locals.errormessage = "Sorry, we couldn't load that specification! \nError details: " + e;
-        return res.render('JobSpecification')
-    }
+  try {
+    var js = await jobSpecification.getJobSpecification(req.params.roleid);
+    res.render('JobSpecification', { spec: js.data })
+  } catch (e) {
+    res.locals.errormessage = "Sorry, we couldn't load that specification! \nError details: " + e;
+    return res.render('JobSpecification')
+  }
 });
 
 //US015 - create job role
 app.get('/create-job-role', async function (req, res) {
-    let bands = await jobBands.getBands();
-    let families = await jobFamilies.getFamilies();
-    res.render('CreateJobRole', { band: bands.data, family: families.data })
+  let bands = await jobBands.getBands();
+  let families = await jobFamilies.getFamilies();
+  res.render('CreateJobRole', { band: bands.data, family: families.data })
 });
 
 app.post('/create-job-role', async (req, res) => {
-    try {
-        var validJob = jobRoleValidator.isValidJobRole(req.body)
-        await createJobRole.addJobRole(validJob);
-        res.redirect('/jobRoles');
-    } catch (e) {
-        res.render('ErrorPage', { err: e })
-    }
+  try {
+    var validJob = jobRoleValidator.isValidJobRole(req.body)
+    await createJobRole.addJobRole(validJob);
+    res.redirect('/jobRoles');
+  } catch (e) {
+    res.render('ErrorPage', { err: e })
+  }
 })
 
 app.get("/competencies/:bandid", async (req, res) => {
@@ -83,6 +88,34 @@ app.get("/competencies/:bandid", async (req, res) => {
     return res.render("CompetenciesPerBand");
   }
 });
+
+app.get('/register', (req, res) => {
+  res.render('Registration')
+})
+
+app.post('/register', async (req, res) => {
+
+  var newUser = {
+    "email": req.body.email,
+    "password": req.body.password,
+    "role": req.body.role
+  };
+
+  if (validator.validateNewUser(newUser) == null) {
+    const user = register.registerNewUser(newUser);
+
+    if (user.email == null) {
+      res.render('ErrorPage');
+    } else {
+      res.locals.confirmationmessage = newUser.role + " registered";
+      res.render('Registration');
+    }
+  } else {
+    res.locals.errormessage = validator.validateNewUser(newUser);
+    res.render('Registration');
+  }
+
+})
 
 //method to redirect to error page
 app.get("*", function (req, res) {
