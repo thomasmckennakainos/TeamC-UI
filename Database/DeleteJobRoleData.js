@@ -8,6 +8,6 @@ exports.deleteJobRole = async (id) => {
         const results = await axios.delete(this.URL + id);
         return results;
     } catch (e) {
-        throw new Error('There was a problem with deleteing ' + e.message);
+        throw new Error('There was a problem with deleting ' + e.message);
     }
 }

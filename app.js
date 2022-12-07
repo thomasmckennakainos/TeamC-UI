@@ -92,7 +92,7 @@ app.get('/deleteJobRole/:roleid', async (req, res) => {
     res.redirect("/jobRoles");
 } catch (e)
 {
-  res.locals.errormessage = "Unable to complete delete process " + e;
+  res.locals.errormessage = "Unable to complete deletion process " + e;
   return res.render('list-jobRoles');
 } 
 });

@@ -25,7 +25,7 @@ describe('DeleteJobRoleData', function () {
         try {
             var errorResponse = await DeleteJobRole.deleteJobRole(id)
         } catch (e) {
-            expect(e.message).to.equal('There was a problem with deleteing Request failed with status code 500')
+            expect(e.message).to.equal('There was a problem with deleting Request failed with status code 500')
         }
 
     })
