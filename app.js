@@ -66,7 +66,7 @@ app.get("/create-job-role", async function (req, res) {
 
 app.post("/create-job-role", async (req, res) => {
   try {
-    var validJob = job.isValidJobRole(req.body);
+    var validJob = jobRoleValidator.isValidJobRole(req.body);
     await createJobRole.addJobRole(validJob);
     res.redirect("/jobRoles");
   } catch (e) {
@@ -95,10 +95,9 @@ app.get("/edit-job-role/:id", async (req, res) => {
 app.post("/edit-job-role/:id", async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(req.body);
     var validJob = jobRoleUpdateValidator.isUpdatedJobRoleValid(req.body);
     await editJobRole.editJobRoles(validJob, id);
-    res.redirect("/edit-job-role/" + id);
+    res.redirect("/jobRoles");
   } catch (e) {
     res.render("ErrorPage", { err: e });
   }

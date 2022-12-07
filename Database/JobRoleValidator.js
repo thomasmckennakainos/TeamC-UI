@@ -16,38 +16,22 @@ var constraints = {
       maximum: 35,
       message: "Must be 35 characters or less",
     },
-    family: {
-      presence: true,
-      type: "string",
-    },
-    title: {
-      presence: { allowEmpty: false },
-      type: "string",
-      length: {
-        maximum: 35,
-        message: "Must be 35 characters or less",
-      },
-    },
-    specification: {
-      presence: { allowEmpty: false },
-      type: "string",
-      length: {
-        maximum: 255,
-        message: "Must be 255 characters or less",
-      },
-    },
-    link: {
-      presence: { allowEmpty: false },
-      url: true,
-      length: {
-        maximum: 35,
-        message: "Must be 255 characters or less",
-      },
+  },
+  specification: {
+    presence: { allowEmpty: false },
+    type: "string",
+    length: {
+      maximum: 255,
+      message: "Must be 255 characters or less",
     },
   },
   link: {
     presence: { allowEmpty: false },
     url: true,
+    length: {
+      maximum: 35,
+      message: "Must be 255 characters or less",
+    },
   },
 };
 

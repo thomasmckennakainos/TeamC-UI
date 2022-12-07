@@ -299,6 +299,9 @@
                     opacity: 1;
                 }
             }
+            .success_message {
+                color:green;
+            }
         </style>
     </head>
     <body>
@@ -329,16 +332,16 @@
                                     <div class="col_half">
                                         <div class="input_field select_option">
                                             <select name="bandId" required="required">
+                                                {% if band and band.length > 0 %}
                                                 {% for b in band %}
                                                  {% if roleDetails.bandId == b.id  %}
-                                                    <option value={{roleDetails.jobFamilyId}} disabled="disabled" selected="selected" hidden="hidden">
+                                                    <option value={{b.id}}  selected="selected"  hidden="hidden">
                                                       {{ b.bandName }}
                                                     </option>                             
                                                   {% endif %}
                                                 {% endfor %}
-                                                {% if band and band.length > 0 %}
                                                     {% for b in band %}
-                                                        <option value={{b.id}}>{{ b.bandName }}</option>
+                                                        <option value={{b.id}} >{{ b.bandName }}</option>
                                                     {% endfor %}
                                                 {% else %}
                                                     {{ errormessage }}
@@ -352,14 +355,14 @@
                                             <select name="jobFamilyId" required="required">
                                                 {% for f in family %}
                                                  {% if roleDetails.jobFamilyId == f.id  %}
-                                                    <option value={{roleDetails.jobFamilyId}} disabled="disabled" selected="selected" hidden="hidden">
+                                                    <option value={{f.id}} selected="selected" hidden="hidden" >
                                                       {{ f.jobFamily }}
                                                     </option>                             
                                                   {% endif %}
                                                 {% endfor %}
                                                 {% if family and family.length > 0 %}
                                                     {% for f in family %}
-                                                        <option value={{f.id}}>{{ f.jobFamily }}</option>
+                                                        <option value={{f.id}} >{{ f.jobFamily }}</option>
                                                     {% endfor %}
                                                 {% else %}
                                                     {{ errormessage }} 
