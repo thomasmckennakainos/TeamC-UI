@@ -5,7 +5,6 @@ var chai = require('chai');
 const expect = chai.expect;
 const DeleteJobRole = require('../Database/DeleteJobRoleData.js');
 
-
 describe('DeleteJobRoleData', function () {
     describe('deleteJobRole', function () {
       it('should return true when role is successfully deleated', async () => {

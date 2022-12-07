@@ -16,5 +16,3 @@ exports.getJobRoles = async function () {
      throw new Error('Could not get job roles. ' + e.message)
   }
 }
-
-
