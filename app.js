@@ -103,8 +103,13 @@ app.post('/register', async (req, res) => {
 
   if (validator.validateNewUser(newUser) == null) {
     const user = register.registerNewUser(newUser);
-    res.locals.confirmationmessage = newUser.role + " registered";
-    res.render('Registration');
+    
+    if (user.email == null) {
+      res.render('ErrorPage');
+    } else {
+      res.locals.confirmationmessage = newUser.role + " registered";
+      res.render('Registration');
+    }
   } else {
     res.locals.errormessage = validator.validateNewUser(newUser);
     res.render('Registration');
