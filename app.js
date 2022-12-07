@@ -103,7 +103,7 @@ app.post('/register', async (req, res) => {
 
   if (validator.validateNewUser(newUser) == null) {
     const user = register.registerNewUser(newUser);
-    
+
     if (user.email == null) {
       res.render('ErrorPage');
     } else {
