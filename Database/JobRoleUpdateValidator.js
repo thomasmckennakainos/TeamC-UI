@@ -21,8 +21,8 @@ var constraints = {
     presence: { allowEmpty: false },
     type: "string",
     length: {
-      maximum: 500,
-      message: "Must be 500 characters or less",
+      maximum: 255,
+      message: "Must be 255 characters or less",
     },
   },
   jobSpecLink: {
