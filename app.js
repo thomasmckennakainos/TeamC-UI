@@ -51,7 +51,6 @@ app.get("/jobRoles", async (req, res) => {
 app.get('/job-specification/:roleid', async (req, res) => {
   try {
       var js = await jobSpecification.getJobSpecification(req.params.roleid);
-      console.log(js);
       res.send(js.data);
   } catch (e) {
       res.send(e.message);
@@ -78,7 +77,6 @@ app.post('/create-job-role', async (req, res) => {
 app.get("/competencies/:bandid", async (req, res) => {
   try {
     var js = await competencyPerBand.getCompetencyPerBand(req.params.bandid);
-    console.log(js);
     res.send(js);
   } catch (e) {
     res.send(e.message);

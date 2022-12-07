@@ -241,8 +241,6 @@
                 };
                 compReq.onreadystatechange = function () {
                     if (compReq.readyState === 4 && compReq.status === 200) {
-                        console.log(bandId)
-                        console.log(compReq.responseText);
                         var json = JSON.parse(compReq.responseText);
                         document.getElementById('competencies').innerHTML = String(json.competencyName).replace(/,/g, ", ") + ".";
                         document.getElementById('comptitle').innerHTML = json.bandName + ' Competencies:';
