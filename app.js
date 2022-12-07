@@ -1,10 +1,14 @@
+var CryptoJS = require("crypto-js");
+
 const express = require('express')
 const app = express()
 const nunjucks = require('nunjucks');
 const { v4: uuidv4 } = require('uuid');
-var cookieParser = require('cookie-parser')
-const jobdata = require('./Database/JobRolesData.js')
-const jobSpecification = require('./Database/JobSpecification.js')
+var cookieParser = require('cookie-parser');
+const jobdata = require('./Database/JobRolesData.js');
+const jobSpecification = require('./Database/JobSpecification.js');
+const register = require('./Database/Register.js');
+const validator = require('./validator/RegisterNewUserValidator.js');
 
 // app setup
 app.use(cookieParser());
@@ -47,6 +51,29 @@ app.get('/job-specification/:roleid', async (req, res) => {
         return res.render('JobSpecification')
     }
 });
+
+app.get('/register', (req, res) => {
+    res.render('Registration')
+})
+
+app.post('/register', async (req, res) => {
+
+    var newUser = {
+        "email": req.body.email,
+        "password": req.body.password,
+        "role": req.body.role
+    };
+
+    if (validator.validateNewUser(newUser) == null) {
+        const user = register.registerNewUser(newUser);
+        res.locals.confirmationmessage = newUser.role + " registered";
+        res.render('Registration');
+    } else {
+        res.locals.errormessage = validator.validateNewUser(newUser);
+        res.render('Registration');
+    }
+
+})
 
 //method to redirect to error page
 app.get('*', function (req, res) {
