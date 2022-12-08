@@ -1,7 +1,7 @@
 {% include("Navbar.njk") %}
 <html lang="en">
     <head>
-        <title>Create a new job listing</title>
+        <title>Edit an existing job role</title>
         <link
             rel="icon"
             type="image/x-icon"
@@ -320,36 +320,28 @@
             <div class="form_wrapper">
                 <div class="form_container">
                     <div class="title_container">
-                        <h2>Create a new job listing</h2>
+                        <h2>Edit an existing job role</h2>
                     </div>
                     <div class="row clearfix">
                         <div class="">
-                            <form action="/create-job-role" method="POST">
+                            <form action="/edit-job-role/{{ roleDetails.id }}" method="POST">
                                 <div class="input_field">
-                                    <input
-                                        type="text"
-                                        title="Enter job title, with no leading or trailing whitespace"
-                                        name="title"
-                                        placeholder="Job Title"
-                                        maxlength="35"
-                                        required="required"
-                                        pattern="^[^ ].+[^ ]$"/>
+                                    <input type="text" title="Enter job title, with no leading or trailing whitespace" name="role_title" maxlength="35" required="required" pattern="^[^ ].+[^ ]$" value="{{ roleDetails.role_title }}"/>
                                 </div>
                                 <div class="input_field">
-                                    <input
-                                        type="text"
-                                        title="Enter sharepoint link, with no leading or trailing whitespace"
-                                        name="link"
-                                        placeholder="Sharepoint Link"
-                                        maxlength="500"
-                                        pattern="^[^ ].+[^ ]$"
-                                        required="required"/>
+                                    <input type="text" title="Enter sharepoint link, with no leading or trailing whitespace" name="jobSpecLink" placeholder="Sharepoint Link" value={{ roleDetails.jobSpecLink }} maxlength="500" pattern="^[^ ].+[^ ]$" required="required"/>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="input_field select_option">
-                                        <select name="band" required="required">
-                                            <option value="" disabled="disabled" selected="selected" hidden="hidden">Job Band</option>
+                                        <select name="bandId" required="required">
                                             {% if band and band.length > 0 %}
+                                                {% for b in band %}
+                                                    {% if roleDetails.bandId == b.id %}
+                                                        <option value={{ b.id }} selected="selected" hidden="hidden">
+                                                            {{ b.bandName }}
+                                                        </option>
+                                                    {% endif %}
+                                                {% endfor %}
                                                 {% for b in band %}
                                                     <option value={{ b.id }}>{{ b.bandName }}</option>
                                                 {% endfor %}
@@ -360,8 +352,14 @@
                                         <div class="select_arrow"></div>
                                     </div>
                                     <div class="input_field select_option">
-                                        <select name="family" required="required">
-                                            <option value="" disabled="disabled" selected="selected" hidden="hidden">Job Family</option>
+                                        <select name="jobFamilyId" required="required">
+                                            {% for f in family %}
+                                                {% if roleDetails.jobFamilyId == f.id %}
+                                                    <option value={{ f.id }} selected="selected" hidden="hidden">
+                                                        {{ f.jobFamily }}
+                                                    </option>
+                                                {% endif %}
+                                            {% endfor %}
                                             {% if family and family.length > 0 %}
                                                 {% for f in family %}
                                                     <option value={{ f.id }}>{{ f.jobFamily }}</option>
@@ -377,16 +375,16 @@
                                     <textarea
                                         type="spec"
                                         title="Enter job specification, with no leading or trailing whitespace"
-                                        name="specification"
+                                        name="jobSpecification"
                                         placeholder="Specification Summary"
                                         maxlength="255"
-                                        required="required"></textarea>
+                                        required="required">{{ roleDetails.jobSpecification }}</textarea>
                                 </div>
                                 <div class="input_field checkbox_option">
                                     <input type="checkbox" id="cb1" required="required">
                                     <label for="cb1">I confirm the above details are correct</label>
                                 </div>
-                                <input class="button" type="submit" value="Create Job Listing"/>
+                                <input class="button" type="submit" value="Edit Job Details"/>
                                 <a href="/jobRoles" aria-label="cancel button">
                                     <input class="button" type="button" value="Cancel"/>
                                 </a>
