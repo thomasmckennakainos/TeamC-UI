@@ -25,7 +25,7 @@ describe('Verify that user can view job role list.', function() {
       console.log("log: Table is visible on the page");
   }
   catch(NoSuchElementError){
-      assert.fail("log: no Job role table to wiew");
+      assert.fail("log: no Job role table to view");
   }
   })
 })
