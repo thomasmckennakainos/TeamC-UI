@@ -1,59 +1,256 @@
-<!-- CSS only -->
-<head>
-  <style>
-    table {
-      width: 40%;
-      border: none;
-      border-top: 1px solid #EEEEEE;
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
-      table-layout: fixed;
-    }
-    td,
-    th {
-      border: 1px solid #EEEEEE;
-      text-align: left;
-      padding: 8px;
-      color: #363D41;
-      font-size: 14px;
-    },
-    tr {
-      background-color: #fff;
-      border: 1px;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      justify-content: flex-start;
-    }
-    .center {
-      margin-left: auto;
-      margin-right: auto;
-    }
-  </style>
-</head>
-<body>
-  {% block content %}
-    <h2>
-      Job roles
-    </h2>
-    <table class='center'>
-      <tr>
-        <th style="width:60%">Job title</th>
-        <th style="width:60%">Capability</th>
-        <th style="width:60%">Band</th>
-      </tr>
-      {% if jobRoles and jobRoles.length > 0 %}
-        {% for job in jobRoles %}
-          <tr>
-            <td>
-              <a id= "{{ job.roleID }}" href="/job-specification/{{ job.roleID }}">{{ job.role_title }}</a>
-            </td>
-            <td> {{ job.capability_name }} </td>
-            <td> <a id= "{{ job.bandId }}" href="/competencies/{{ job.bandId }}">{{ job.bandName }}</a></td>
-          </tr>
-        {% endfor %}
-      {% else %}
-        {{ errormessage }}
-      {% endif %}
-    </table>
-  {% endblock %}
-</body>
+{% include("Navbar.njk") %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+        <meta charset="utf-8">
+        <title>Kainos Jobs
+        </title>
+    </head>
+    <style>
+        @font-face {
+            font-family: 'gothic';
+            src: url('/font/GOTHIC/GOTHIC.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'gothic';
+            src: url('/font/GOTHIC/GOTHICB.ttf') format('truetype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        body {
+            font-family: Arial;
+            color: #333333;
+        }
+        .split {
+            height: 100%;
+            width: 50%;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            overflow-x: hidden;
+        }
+        .left {
+            left: 0;
+            margin-top: 120px;
+        }
+        .right {
+            display: block;
+            margin-top: 10vh;
+            right: 0;
+        }
+        .cards {
+            padding-bottom: 150px;
+        }
+        .card {
+            border-top: 1px solid #7b7b7b;
+            transition: transform 0.2s;
+            cursor: pointer;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            overflow: scroll;
+            padding: 15px;
+            width: 60%;
+            height: auto;
+            font-family: 'gothic';
+            word-break: break-word;
+        }
+        .specdetails {
+            border-radius: 5px;
+            padding: 40px;
+            width: calc(80px + 30vw);
+            min-height: calc(50vh);
+            border-top: 10px solid #288629;
+            border-left: 1px solid #7b7b7b;
+            border-bottom: 1px solid #7b7b7b;
+            border-right: 1px solid #7b7b7b;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -60%);
+            font-family: 'gothic';
+            word-break: break-word;
+        }
+        .endcard {
+            border-top: 1px solid #7b7b7b;
+            display: block;
+            justify-content: center;
+            align-items: center;
+            margin: auto;
+            overflow: scroll;
+            padding: 15px;
+            width: 60%;
+            height: auto;
+            font-family: 'gothic';
+        }
+        .card:hover {
+            background: #E2E2E2;
+            transform: scale(1.06);
+        }
+        .bttn {
+            background-color: #288629;
+            border: 0;
+            color: #fff;
+            font-size: 12px;
+            padding: 12px 25px;
+            letter-spacing: 1px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            font-family: 'gothic';
+            cursor: pointer;
+        }
+        h2 {
+            display: block;
+            font-size: 22px;
+            margin: 0.2em 0;
+            font-weight: bold;
+            font-family: 'gothic';
+        }
+        p {
+            display: block;
+            font-size: 18px;
+            margin: 0.1em 0;
+            font-family: 'gothic';
+        }
+        .detailstitle {
+            display: block;
+            font-size: 22px;
+            margin: 0.2em 0;
+            font-weight: bold;
+            font-family: 'gothic';
+            color: #333333;
+        }
+        .editbtn {
+            width: auto;
+            float: right;
+            font-size: 15px;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            border: none;
+            overflow: hidden;
+            outline: none;
+            font-family: 'gothic';
+        }
+        .deletebtn {
+            width: auto;
+            float: right;
+            font-size: 15px;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            border: none;
+            overflow: hidden;
+            outline: none;
+            font-family: 'gothic';
+        }
+        .emptystate {
+            text-align: center;
+            padding-top: 16vh;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+    <body>
+        <div class="split left">
+            <div class="cards">
+                {% for job in jobRoles %}
+                    <div class="card" id="{{ job.roleID }}" onkeyup="onKeyUp(event,{{ job.roleID }})" onclick="ajaxRequest({{ job.roleID }}, {{ job.bandId }})" tabindex="{{ job.roleID }}">
+                        <button class="deletebtn" onclick="deleteRole('{{ job.role_title }}',{{ job.roleID }})">Delete
+                            <i class="fa fa-trash"></i>
+                        </button>
+                        <a href="">
+                            <button class="editbtn">Edit
+                                <i class='far fa-edit'></i>
+                            </button>
+                        </a>
+                        <h2>{{ job.role_title }}</h2>
+                        <br>
+                        <p>Band: {{ job.bandName }}</p>
+                        <p>Capability: {{ job.capability_name }}</p>
+                        <br>
+                    </div>
+                {% endfor %}
+                <div class="endcard">
+                    <h2>
+                        End of jobs
+                    </h2>
+                </div>
+            </div>
+            <br><br><br>
+            <div class="split right">
+                <div class="specdetails">
+                    <p class="detailstitle" id="jobtitle" aria-hidden="true"></p>
+                    <br>
+                    <p id="spectitle" style="font-weight: bold"></p>
+                    <p id="spec"></p>
+                    <br>
+                    <p id="comptitle" style="font-weight: bold"></p>
+                    <p id="competencies"></p>
+                    <a id="splink">
+                        <button id="spbutton" class="bttn" hidden>View on Sharepoint</button>
+                    </a>
+                    <p id="empty" class="emptystate">Click a job role to view more details</p>
+                </div>
+            </div>
+        </body>
+        <script>
+            function deleteRole(x, id) {
+                var del = window.confirm("Are you sure you want to delete " + x + "?");
+                if (del === true) {
+                    window.location.replace("delete/" + id);
+                }
+            }
+            function onKeyUp(e, id) {
+                if (e.key === "Enter") {
+                    ajaxRequest(id);
+                }
+            }
+            function ajaxRequest(jobId, bandId) {
+                var specReq = null;
+                var compReq = null;
+                if (window.XMLHttpRequest) {
+                    specReq = new XMLHttpRequest();
+                    compReq = new XMLHttpRequest();
+                } else {
+                    specReq = new ActiveXObject("Microsoft.XMLHTTP");
+                    compReq = new ActiveXObject("Microsoft.XMLHTTP");
+                };
+                specReq.onreadystatechange = function () {
+                    if (
+                        specReq.readyState === 4 &&
+                        specReq.status === 200 &&
+                        specReq.responseText !== 'Could not get job specification'
+                    ) {
+                        var json = JSON.parse(specReq.responseText);
+                        document.getElementById('empty').innerHTML = '';
+                        document.getElementById('spectitle').innerHTML = 'Job Specification:';
+                        document.getElementById('spec').innerHTML = json.jobSpecification;
+                        document.getElementById('jobtitle').innerHTML = json.kainosJobTitle;
+                        document.getElementById('splink').href = json.jobSpecificationLink;
+                        document.getElementById('spbutton').removeAttribute("hidden") = json.jobSpecificationLink;
+                    } else {
+                        document.getElementById('empty').innerHTML = specReq.responseText;
+                    }
+                };
+                compReq.onreadystatechange = function () {
+                    if (compReq.readyState === 4 && compReq.status === 200) {
+                        var json = JSON.parse(compReq.responseText);
+                        document.getElementById('competencies').innerHTML = String(json.competencyName).replace(/,/g, ", ") + ".";
+                        document.getElementById('comptitle').innerHTML = json.bandName + ' Competencies:';
+                    }
+                }
+                specReq.open("GET", "job-specification/" + jobId, true);
+                specReq.send();
+                compReq.open("GET", "competencies/" + bandId, true);
+                compReq.send();
+            };
+        </script>
+    </body>
+</html>

@@ -1,26 +1,14 @@
-{% include("Navbar.njk") %}
+<!-- CSS only -->
 <html lang="en">
     <head>
-        <title>Create a new job listing</title>
+        <title>Edit an existing job role</title>
         <link
             rel="icon"
             type="image/x-icon"
             href="https://cdn.phenompeople.com/CareerConnectResources/KAINGB/en_gb/desktop/assets/images/favicon.ico"/>
         <style>
-            @font-face {
-                font-family: 'gothic';
-                src: url('/font/GOTHIC/GOTHIC.ttf') format('truetype');
-                font-weight: normal;
-                font-style: normal;
-            }
-            @font-face {
-                font-family: 'gothic';
-                src: url('/font/GOTHIC/GOTHICB.ttf') format('truetype');
-                font-weight: bold;
-                font-style: normal;
-            }
             body {
-                font-family: 'gothic';
+                font-family: Verdana, Geneva, sans-serif;
                 font-size: 14px;
             }
             .clearfix:after {
@@ -32,11 +20,11 @@
             }
             .form_wrapper {
                 background: #fff;
-                width: 400px;
+                width: 600px;
                 max-width: 100%;
                 box-sizing: border-box;
                 padding: 25px;
-                margin: 3% auto 0;
+                margin: 8% auto 0;
                 position: relative;
                 z-index: 1;
                 border-top: 10px solid #288629;
@@ -69,7 +57,7 @@
                 margin: 0;
             }
             .form_wrapper label {
-                font-size: 20px;
+                font-size: 12px;
             }
             .form_wrapper .row {
                 margin: 10px -15px;
@@ -109,8 +97,8 @@
                 border: 1px solid #ccc;
                 box-sizing: border-box;
                 outline: none;
-                font-family: 'gothic';
-                font-size: 16px;
+                font-family: Verdana, Geneva, sans-serif;
+                font-size: 12px;
                 -webkit-transition: all 0.3s ease-in-out;
                 -moz-transition: all 0.3s ease-in-out;
                 -ms-transition: all 0.3s ease-in-out;
@@ -124,8 +112,8 @@
                 box-sizing: border-box;
                 outline: none;
                 line-height: 30px;
-                font-family: 'gothic';
-                font-size: 16px;
+                font-family: Verdana, Geneva, sans-serif;
+                font-size: 12px;
                 resize: none;
                 -webkit-transition: all 0.3s ease-in-out;
                 -moz-transition: all 0.3s ease-in-out;
@@ -154,13 +142,12 @@
                 outline: none;
                 cursor: pointer;
                 color: #fff;
-                font-size: 16px;
+                font-size: 1.1em;
                 margin-bottom: 10px;
                 -webkit-transition: all 0.3s ease-in-out;
                 -moz-transition: all 0.3s ease-in-out;
                 -ms-transition: all 0.3s ease-in-out;
                 transition: all 0.3s ease-in-out;
-                font-family: 'gothic';
             }
             .form_wrapper input[type="button"] {
                 background: #CC0000;
@@ -171,13 +158,12 @@
                 outline: none;
                 cursor: pointer;
                 color: #fff;
-                font-size: 16px;
+                font-size: 1.1em;
                 margin-bottom: 10px;
                 -webkit-transition: all 0.3s ease-in-out;
                 -moz-transition: all 0.3s ease-in-out;
                 -ms-transition: all 0.3s ease-in-out;
                 transition: all 0.3s ease-in-out;
-                font-family: 'gothic';
             }
             .form_wrapper input[type="button"]:hover,
             .form_wrapper input[type="submit"]:hover {
@@ -196,7 +182,7 @@
                 padding: 0;
                 position: absolute;
                 width: 1px;
-                font-family: 'gothic';
+                font-family: Verdana, Geneva, sans-serif;
                 font-size: 12px;
             }
             .form_container .row .col_half.last {
@@ -205,8 +191,8 @@
             .checkbox_option label {
                 margin-right: 1em;
                 position: relative;
-                font-family: 'gothic';
-                font-size: 14px;
+                font-family: Verdana, Geneva, sans-serif;
+                font-size: 12px;
             }
             .checkbox_option label:before {
                 content: "";
@@ -220,7 +206,7 @@
                 background-color: transparent;
                 background-clip: content-box;
                 transition: all 0.2s ease;
-                font-family: 'gothic';
+                font-family: Verdana, Geneva, sans-serif;
                 font-size: 12px;
             }
             .checkbox_option label:after {
@@ -235,7 +221,7 @@
                 transform-origin: left top;
                 width: 7px;
                 display: none;
-                font-family: 'gothic';
+                font-family: Verdana, Geneva, sans-serif;
                 font-size: 12px;
             }
             .checkbox_option input:hover + label:before {
@@ -252,13 +238,13 @@
                 width: 7px;
                 height: 20px;
                 border-color: #288629;
-                font-family: 'gothic';
+                font-family: Verdana, Geneva, sans-serif;
                 font-size: 12px;
             }
             .select_option {
                 position: relative;
                 width: 100%;
-                font-family: 'gothic';
+                font-family: Verdana, Geneva, sans-serif;
                 font-size: 12px;
             }
             .select_option select {
@@ -274,8 +260,8 @@
                 -webkit-appearance: none;
                 -moz-appearance: none;
                 transition: all 0.2s ease;
-                font-family: 'gothic';
-                font-size: 16px;
+                font-family: Verdana, Geneva, sans-serif;
+                font-size: 12px;
             }
             .select_option select::-ms-expand {
                 display: none;
@@ -290,7 +276,7 @@
             .select_arrow {
                 position: absolute;
                 top: calc(50% - 4px);
-                right: 35px;
+                right: 15px;
                 width: 0;
                 height: 0;
                 pointer-events: none;
@@ -313,6 +299,9 @@
                     opacity: 1;
                 }
             }
+            .success_message {
+                color:green;
+            }
         </style>
     </head>
     <body>
@@ -320,73 +309,83 @@
             <div class="form_wrapper">
                 <div class="form_container">
                     <div class="title_container">
-                        <h2>Create a new job listing</h2>
+                        <h2>Edit an existing job role</h2>
                     </div>
                     <div class="row clearfix">
                         <div class="">
-                            <form action="/create-job-role" method="POST">
+                            <form action="/edit-job-role/{{roleDetails.id}}" method="POST">
                                 <div class="input_field">
-                                    <input
-                                        type="text"
-                                        title="Enter job title, with no leading or trailing whitespace"
-                                        name="title"
-                                        placeholder="Job Title"
-                                        maxlength="35"
-                                        required="required"
-                                        pattern="^[^ ].+[^ ]$"/>
+                                    <input type="text" title="Enter job title, with no leading or trailing whitespace" name="role_title"  maxlength="35" required="required" pattern="^[^ ].+[^ ]$" value= "{{ roleDetails.role_title }}"/>
                                 </div>
                                 <div class="input_field">
                                     <input
                                         type="text"
                                         title="Enter sharepoint link, with no leading or trailing whitespace"
-                                        name="link"
+                                        name="jobSpecLink"
                                         placeholder="Sharepoint Link"
+                                        value= {{roleDetails.jobSpecLink}}
                                         maxlength="500"
                                         pattern="^[^ ].+[^ ]$"
                                         required="required"/>
                                 </div>
                                 <div class="row clearfix">
-                                    <div class="input_field select_option">
-                                        <select name="band" required="required">
-                                            <option value="" disabled="disabled" selected="selected" hidden="hidden">Job Band</option>
-                                            {% if band and band.length > 0 %}
+                                    <div class="col_half">
+                                        <div class="input_field select_option">
+                                            <select name="bandId" required="required">
+                                                {% if band and band.length > 0 %}
                                                 {% for b in band %}
-                                                    <option value={{ b.id }}>{{ b.bandName }}</option>
+                                                 {% if roleDetails.bandId == b.id  %}
+                                                    <option value={{b.id}}  selected="selected"  hidden="hidden">
+                                                      {{ b.bandName }}
+                                                    </option>                             
+                                                  {% endif %}
                                                 {% endfor %}
-                                            {% else %}
-                                                {{ errormessage }}
-                                            {% endif %}
-                                        </select>
-                                        <div class="select_arrow"></div>
+                                                    {% for b in band %}
+                                                        <option value={{b.id}} >{{ b.bandName }}</option>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {{ errormessage }}
+                                                {% endif %}
+                                            </select>
+                                            <div class="select_arrow"></div>
+                                        </div>
                                     </div>
-                                    <div class="input_field select_option">
-                                        <select name="family" required="required">
-                                            <option value="" disabled="disabled" selected="selected" hidden="hidden">Job Family</option>
-                                            {% if family and family.length > 0 %}
+                                    <div class="col_half">
+                                        <div class="input_field select_option">
+                                            <select name="jobFamilyId" required="required">
                                                 {% for f in family %}
-                                                    <option value={{ f.id }}>{{ f.jobFamily }}</option>
+                                                 {% if roleDetails.jobFamilyId == f.id  %}
+                                                    <option value={{f.id}} selected="selected" hidden="hidden" >
+                                                      {{ f.jobFamily }}
+                                                    </option>                             
+                                                  {% endif %}
                                                 {% endfor %}
-                                            {% else %}
-                                                {{ errormessage }}
-                                            {% endif %}
-                                        </select>
-                                        <div class="select_arrow"></div>
+                                                {% if family and family.length > 0 %}
+                                                    {% for f in family %}
+                                                        <option value={{f.id}} >{{ f.jobFamily }}</option>
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {{ errormessage }} 
+                                                {% endif %}
+                                            </select>
+                                            <div class="select_arrow"></div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="input_field">
                                     <textarea
                                         type="spec"
                                         title="Enter job specification, with no leading or trailing whitespace"
-                                        name="specification"
+                                        name="jobSpecification"
                                         placeholder="Specification Summary"
                                         maxlength="255"
-                                        required="required"></textarea>
+                                        required="required">{{roleDetails.jobSpecification}}</textarea>
                                 </div>
                                 <div class="input_field checkbox_option">
                                     <input type="checkbox" id="cb1" required="required">
                                     <label for="cb1">I confirm the above details are correct</label>
                                 </div>
-                                <input class="button" type="submit" value="Create Job Listing"/>
+                                <input class="button" type="submit" value="Edit Job Details"/>
                                 <a href="/jobRoles" aria-label="cancel button">
                                     <input class="button" type="button" value="Cancel"/>
                                 </a>

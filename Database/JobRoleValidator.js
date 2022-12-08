@@ -29,26 +29,26 @@ var constraints = {
         presence: { allowEmpty: false },
         url: true,
         length: {
-            maximum: 35,
-            message: "Must be 255 characters or less"
+            maximum: 500,
+            message: "Must be 500 characters or less"
         }
     },
 };
 
 function isValidJobRole(job) {
-    var validationResult = validate(job, constraints, { format: "detailed" });
+  var validationResult = validate(job, constraints, { format: "detailed" });
 
-    if (validationResult) {
-        throw new Error(validationResult[0].error);
-    }
-    var jobObject = {
-        "band_id": job.band.trim(),
-        "job_family_id": job.family.trim(),
-        "kainos_job_title": job.title.trim(),
-        "job_specification": job.specification.trim(),
-        "job_spec_link": job.link.trim()
-    };
-    return jobObject;
+  if (validationResult) {
+    throw new Error(validationResult[0].error);
+  }
+  var jobObject = {
+    band_id: job.band.trim(),
+    job_family_id: job.family.trim(),
+    kainos_job_title: job.title.trim(),
+    job_specification: job.specification.trim(),
+    job_spec_link: job.link.trim(),
+  };
+  return jobObject;
 }
 
-exports.isValidJobRole = isValidJobRole
+exports.isValidJobRole = isValidJobRole;
