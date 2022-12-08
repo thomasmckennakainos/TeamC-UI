@@ -165,7 +165,7 @@
                         <button class="deletebtn" onclick="deleteRole('{{ job.role_title }}',{{ job.roleID }})">Delete
                             <i class="fa fa-trash"></i>
                         </button>
-                        <a href="">
+                        <a href="edit-job-role/{{job.roleID}}">
                             <button class="editbtn">Edit
                                 <i class='far fa-edit'></i>
                             </button>
@@ -204,7 +204,7 @@
             function deleteRole(x, id) {
                 var del = window.confirm("Are you sure you want to delete " + x + "?");
                 if (del === true) {
-                    window.location.replace("delete/" + id);
+                    window.location.replace("deleteJobRole/" + id);
                 }
             }
             function onKeyUp(e, id) {
