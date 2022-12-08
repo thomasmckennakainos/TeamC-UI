@@ -3,9 +3,10 @@ FROM node:16
 WORKDIR /code
 COPY . /code
 
-RUN npm install
-RUN export API_URL=${API_URL}
+ARG API_URL
+ENV API_URL ${API_URL}
 
+RUN npm install
 
 EXPOSE 3000
 
