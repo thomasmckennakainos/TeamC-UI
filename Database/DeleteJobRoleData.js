@@ -8,6 +8,14 @@ exports.deleteJobRole = async (id) => {
         const results = await axios.delete(this.URL + id);
         return results;
     } catch (e) {
-        throw new Error('There was a problem with deleting ' + e.message);
+        if (e.response.status == 404){
+            console.log("User does not exist")
+            throw new Error('User does not exist ' + e.response.status)
+        }
+        else {
+            console.log("There was a problem with deleting")
+            throw new Error('There was a problem with deleting ' + e.message)
+        }
+        
     }
 }
