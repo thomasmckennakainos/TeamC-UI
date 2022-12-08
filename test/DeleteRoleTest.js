@@ -17,15 +17,15 @@ describe('DeleteJobRoleData', function () {
         expect(results.data).to.deep.equal(true)
       })
 
-      it('should throw exception when 500 error returned from axios', async () => {
+      it('should throw exception when 404 error returned from axios', async () => {
         var mock = new MockAdapter(axios);
         const id = -1
 
-        mock.onDelete(DeleteJobRole.deleteJobRole(id).URL).reply(500);
+        mock.onDelete(DeleteJobRole.deleteJobRole(id).URL).reply(404);
         try {
             var errorResponse = await DeleteJobRole.deleteJobRole(id)
         } catch (e) {
-            expect(e.message).to.equal('There was a problem with deleting Request failed with status code 500')
+            expect(e.message).to.equal('Job Role does not exist 404')
         }
 
     })

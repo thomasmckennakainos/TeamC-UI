@@ -10,7 +10,7 @@ exports.deleteJobRole = async (id) => {
     } catch (e) {
         if (e.response.status == 404){
             console.log("User does not exist")
-            throw new Error('User does not exist ' + e.response.status)
+            throw new Error('Job Role does not exist ' + e.response.status)
         }
         else {
             console.log("There was a problem with deleting")
