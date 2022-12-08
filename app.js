@@ -123,7 +123,7 @@ app.get('/deleteJobRole/:roleid', async (req, res) => {
 } catch (e)
 {
   res.locals.errormessage = "Unable to complete deletion process " + e;
-  return res.render('list-jobRoles');
+  res.render('ErrorPage', { err: e })
 } 
 });
 
